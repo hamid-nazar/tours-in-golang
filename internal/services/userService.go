@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var UserDatabaseClient *mongo.Client = utils.DatabaseClient
+var UserDatabaseClient *mongo.Client
 
 func CreateUser(cxt *gin.Context, user *models.User) error {
 	collection := utils.GetCollection(UserDatabaseClient, "users")

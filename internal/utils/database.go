@@ -9,8 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var DatabaseClient *mongo.Client
-
 func ConnectDB() *mongo.Client {
 	ctx := context.Background()
 

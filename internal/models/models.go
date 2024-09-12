@@ -6,6 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type CustomResponse struct {
+	Status  string      `json:"success"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
 type User struct {
 	Id                       string    `json:"id" validate:"required"`
 	Name                     string    `json:"name" validate:"required"`
@@ -18,12 +24,6 @@ type User struct {
 	PasswordResetToken       string    `json:"passwordResetToken,omitempty"`
 	PasswordResetTokenExpiry time.Time `json:"passwordResetTokenExpiry,omitempty"`
 	Active                   bool      `json:"active"`
-}
-
-type CustomResponse struct {
-	Status  string      `json:"success"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
 }
 
 func NewUser() *User {
