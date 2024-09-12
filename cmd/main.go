@@ -5,11 +5,12 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	"github.com/hamid-nazari/tours-in-go/internal/routes"
 	"github.com/hamid-nazari/tours-in-go/internal/services"
 	"github.com/hamid-nazari/tours-in-go/internal/utils"
-	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func main() {
