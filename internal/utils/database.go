@@ -14,24 +14,23 @@ func ConnectDB() *mongo.Client {
 
 	dbUrl := os.Getenv("DB_URL")
 	if dbUrl == "" {
-		log.Println("Failed to get DB_URL")
-		os.Exit(1)
+		log.Fatalln("Failed to get DB_URL")
 	}
 
 	clientOptions := options.Client().ApplyURI(dbUrl)
 
 	databaseClient, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Println("Failed to connect to MongoDB:", err)
+		log.Fatalln("Failed to connect to MongoDB:", err)
 	}
 
 	err = databaseClient.Ping(ctx, nil)
 	if err != nil {
-		log.Println("Failed to ping MongoDB:", err)
+		log.Fatalln("Failed to ping MongoDB:", err)
 	}
-
+	log.SetPrefix("Info: ")
 	log.Println("Connected to MongoDB")
-
+	log.Println()
 	return databaseClient
 }
 
