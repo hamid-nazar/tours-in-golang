@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
 
@@ -10,6 +11,11 @@ type CustomResponse struct {
 	Status  string      `json:"success"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
+}
+
+type CustomClaims struct {
+	UserId string `json:"userId"`
+	jwt.RegisteredClaims
 }
 
 type User struct {

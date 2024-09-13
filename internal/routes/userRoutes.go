@@ -7,16 +7,26 @@ import (
 
 func SetupRoutes(router *gin.RouterGroup) {
 
-	router.POST("/", controllers.RegisterUserHandler)
+	router.POST("/signup", controllers.SignupHandler)
+	router.POST("/login", controllers.LoginHandler)
+	router.POST("/logout", controllers.LogoutHandler)
+	router.POST("/forgot-password", controllers.ForgotPasswordHandler)
+	router.POST("/reset-password", controllers.ResetPasswordHandler)
 
+	router.Use(controllers.ProtectHandler)
+
+	router.PATCH("/update-password", controllers.UpdatePasswordHandler)
+	router.PATCH("/update-me", controllers.UpdateMeHandler)
+	router.DELETE("/delete-me", controllers.DeleteMeHandler)
+	router.GET("/me", controllers.GetMeHandler)
+
+	router.Use(controllers.RestrictTo("admin"))
+
+	router.POST("/", controllers.CreateUserHandler)
 	router.GET("/", controllers.GetAllUsersHandler)
-
-	router.GET("/:id", controllers.GetUserHandler)
-
-	router.PATCH("/:id", controllers.UpdateUserHandler)
-
 	router.DELETE("/", controllers.DeleteAllUsersHandler)
-
+	router.GET("/:id", controllers.GetUserHandler)
+	router.PATCH("/:id", controllers.UpdateUserHandler)
 	router.DELETE("/:id", controllers.DeleteUserdHandler)
 
 }

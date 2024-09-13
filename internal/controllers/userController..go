@@ -9,10 +9,15 @@ import (
 	"github.com/hamid-nazari/tours-in-go/internal/services"
 )
 
-func RegisterUserHandler(c *gin.Context) {
-	user := models.NewUser()
+func ResizeUserPhotoHandler(c *gin.Context) {
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+}
+
+func CreateUserHandler(c *gin.Context) {
+
+	newUser := models.NewUser()
+
+	if err := c.ShouldBindJSON(&newUser); err != nil {
 		c.JSON(http.StatusBadRequest, models.CustomResponse{
 			Status:  "Failed",
 			Message: err.Error(),
@@ -20,7 +25,17 @@ func RegisterUserHandler(c *gin.Context) {
 		})
 		return
 	}
-	if existingUser := services.FindUserByEmail(c, user.Email); existingUser != nil {
+
+	if err := services.ValidateUser(*newUser); err != nil {
+		c.JSON(http.StatusBadRequest, models.CustomResponse{
+			Status:  "Failed",
+			Message: err.Error(),
+			Data:    nil,
+		})
+		return
+	}
+
+	if existingUser := services.FindUserByEmail(c, newUser.Email); existingUser != nil {
 		c.JSON(http.StatusConflict, models.CustomResponse{
 			Status:  "Failed",
 			Message: "A user with this email already exists",
@@ -29,16 +44,7 @@ func RegisterUserHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.ValidateUser(*user); err != nil {
-		c.JSON(http.StatusBadRequest, models.CustomResponse{
-			Status:  "Failed",
-			Message: err.Error(),
-			Data:    nil,
-		})
-		return
-	}
-
-	hashedPassword, err := services.HashPassword(user.Password)
+	hashedPassword, err := services.HashPassword(newUser.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.CustomResponse{
 			Status:  "Failed",
@@ -47,10 +53,10 @@ func RegisterUserHandler(c *gin.Context) {
 		})
 		return
 	}
-	user.Password = hashedPassword
-	user.PasswordConfirm = ""
+	newUser.Password = hashedPassword
+	newUser.PasswordConfirm = ""
 
-	if err := services.CreateUser(c, user); err != nil {
+	if err := services.CreateUser(c, newUser); err != nil {
 		c.JSON(http.StatusInternalServerError, models.CustomResponse{
 			Status:  "Failed",
 			Message: err.Error(),
@@ -59,11 +65,12 @@ func RegisterUserHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, models.CustomResponse{
+	c.JSON(http.StatusOK, models.CustomResponse{
 		Status:  "Success",
 		Message: "User created successfully",
-		Data:    user,
+		Data:    newUser,
 	})
+
 }
 
 func GetAllUsersHandler(c *gin.Context) {
@@ -203,6 +210,12 @@ func DeleteUserdHandler(c *gin.Context) {
 		Message: "User deleted successfully",
 		Data:    nil,
 	})
+}
+
+func GetMeHandler(c *gin.Context) {
+
+}
+func UpdateMeHandler(c *gin.Context) {
 }
 
 func DeleteMeHandler(c *gin.Context) {

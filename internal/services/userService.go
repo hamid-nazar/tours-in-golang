@@ -118,8 +118,22 @@ func HashPassword(password string) (string, error) {
 	return string(hashedPassword), nil
 }
 
-func ComparePassword(providedPassword string, actualPassword string) error {
-	return bcrypt.CompareHashAndPassword([]byte(providedPassword), []byte(actualPassword))
+func VerifyPassword(providedPassword string, hashedPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(providedPassword), []byte(hashedPassword))
+	return err == nil
+}
+
+func FindUserByPasswordResetToken(ctx *gin.Context, token string) *models.User {
+	collection := utils.GetCollection(UserDatabaseClient, "users")
+
+	var user models.User
+
+	err := collection.FindOne(ctx, bson.M{"passwordResetToken": token}).Decode(&user)
+	if err != nil {
+		return nil
+	}
+
+	return &user
 }
 
 func FindActiveUsers(users []models.User) []models.User {
