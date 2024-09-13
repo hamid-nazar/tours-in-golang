@@ -16,7 +16,7 @@ import (
 func main() {
 	godotenv.Load("../.env")
 
-	var databaseClient *mongo.Client = utils.ConnectDB()
+	var databaseClient *mongo.Client = utils.GetMongoClient()
 
 	services.UserDatabaseClient = databaseClient
 
@@ -32,5 +32,4 @@ func main() {
 	}
 	fmt.Println("Server started on port 8080")
 
-	// defer databaseClient.Disconnect(context.TODO())
 }

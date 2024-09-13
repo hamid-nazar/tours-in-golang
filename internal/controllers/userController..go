@@ -207,9 +207,3 @@ func DeleteUserdHandler(c *gin.Context) {
 
 func DeleteMeHandler(c *gin.Context) {
 }
-
-func UpdatePasswordHandler(c *gin.Context) {
-}
-
-func ForgotPasswordHandler(c *gin.Context) {
-}
