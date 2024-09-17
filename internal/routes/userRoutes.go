@@ -5,7 +5,7 @@ import (
 	"github.com/hamid-nazari/tours-in-go/internal/controllers"
 )
 
-func SetupRoutes(router *gin.RouterGroup) {
+func SetupUserRoutes(router *gin.RouterGroup) {
 
 	router.POST("/signup", controllers.SignupHandler)
 	router.POST("/login", controllers.LoginHandler)

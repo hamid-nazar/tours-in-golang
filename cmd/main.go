@@ -25,7 +25,7 @@ func main() {
 	usersRouter := router.Group("api/v1/users")
 	// toursRouter := router.Group("api/tours")
 
-	routes.SetupRoutes(usersRouter)
+	routes.SetupTourRoutes(usersRouter)
 
 	if err := router.Run(":8000"); err != nil {
 		log.Fatal(err)
