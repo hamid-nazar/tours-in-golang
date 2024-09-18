@@ -48,7 +48,7 @@ type Tour struct {
 	Slug           string      `json:"slug"`
 	Duration       string      `json:"duration" validate:"required"`
 	Difficulty     string      `json:"difficulty"`
-	Price          int         `json:"price" validate:"required"`
+	Price          float64     `json:"price" validate:"required"`
 	MaxGroupSize   int         `json:"maxGroupSize" validate:"required"`
 	RatingsAvg     float64     `json:"ratingAvg" validate:"required" default:"4.5" min:"1" max:"5"`
 	RatingQuantity int         `json:"ratingQuantity" validate:"required" default:"0"`
